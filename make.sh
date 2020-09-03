@@ -5,7 +5,7 @@
 #
 
 # AWS variables
-AWS_PROFILE=jerome
+AWS_PROFILE=default
 AWS_REGION=eu-west-3
 # project name
 PROJECT_NAME=gallery-kubernetes
@@ -348,11 +348,6 @@ storage-prod-docker() {
         --tag storage-prod:latest \
         --tag storage-prod:$VERSION \
         .
-        # --build-arg AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-        # --build-arg AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-        # --build-arg AWS_S3_BUCKET=$AWS_S3_BUCKET \
-        # --build-arg AWS_REGION=$AWS_REGION \
-        # --build-arg STORAGE_PORT=$STORAGE_PORT \
 
     docker run \
         --env-file=../.env \
