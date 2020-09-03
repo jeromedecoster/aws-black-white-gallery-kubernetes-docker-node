@@ -1,0 +1,13 @@
+# execute the tests on the alpine version (same as the production version)
+
+FROM node:14.5-alpine AS build
+WORKDIR /app
+ADD package.json .
+RUN npm install
+
+FROM node:14.5-alpine
+WORKDIR /app
+COPY --from=build /app .
+ADD . .
+# EXPOSE 4000
+CMD ["npm", "run", "test"]

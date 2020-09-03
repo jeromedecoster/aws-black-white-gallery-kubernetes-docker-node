@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: convert
+  namespace: {{PROJECT_NAME}}
+  labels:
+    app: convert
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: convert
+  template:
+    metadata:
+      labels:
+        app: convert
+    spec:
+      containers:
+      - name: convert
+        image: {{ACCOUNT_ID}}.dkr.ecr.{{AWS_REGION}}.amazonaws.com/convert:latest
+        ports:
+        - containerPort: {{CONVERT_PORT}}
+          name: convert
+        env:
+        - name: CONVERT_PORT
+          value: "{{CONVERT_PORT}}"
+        - name: DEBUG
+          value: convert

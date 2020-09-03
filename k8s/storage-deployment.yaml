@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: storage
+  namespace: {{PROJECT_NAME}}
+  labels:
+    app: storage
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: storage
+  template:
+    metadata:
+      labels:
+        app: storage
+    spec:
+      containers:
+      - name: storage
+        image: {{ACCOUNT_ID}}.dkr.ecr.{{AWS_REGION}}.amazonaws.com/storage:latest
+        ports:
+        - containerPort: {{STORAGE_PORT}}
+          name: storage
+        env:
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: {{PROJECT_NAME}}
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{PROJECT_NAME}}
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_S3_BUCKET
+          value: {{AWS_S3_BUCKET}}
+        - name: AWS_REGION
+          value: {{AWS_REGION}}
+        - name: STORAGE_PORT
+          value: "{{STORAGE_PORT}}"
+        - name: DEBUG
+          value: storage

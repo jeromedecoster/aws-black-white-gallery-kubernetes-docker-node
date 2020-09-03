@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: website
+  namespace: {{PROJECT_NAME}}
+  labels:
+    app: website
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: website
+  template:
+    metadata:
+      labels:
+        app: website
+    spec:
+      containers:
+      - name: website
+        image: {{ACCOUNT_ID}}.dkr.ecr.{{AWS_REGION}}.amazonaws.com/website:latest
+        ports:
+        - containerPort: {{WEBSITE_PORT}}
+          name: website
+        env:
+        - name: WEBSITE_PORT
+          value: "{{WEBSITE_PORT}}"
+        - name: CONVERT_HOST
+          value: convert
+        - name: CONVERT_PORT
+          value: "{{CONVERT_PORT}}"
+        - name: STORAGE_HOST
+          value: storage
+        - name: STORAGE_PORT
+          value: "{{STORAGE_PORT}}"
+        - name: DEBUG
+          value: website
